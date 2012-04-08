@@ -1,0 +1,1 @@
+-e git+https://yumike@github.com/trilan/snippets.git@develop#egg=snippets
