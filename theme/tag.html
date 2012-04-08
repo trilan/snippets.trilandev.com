@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block page_body %}
+  <ul>
+  {% for snippet in snippets %}
+    <li><a href="/{{ snippet.get_relpath() }}">{{ snippet.metadata.title }}</a></li>
+  {% endfor %}
+  </ul>
+{% endblock %}

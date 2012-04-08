@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block page_body %}
+  <div>Title: <strong>{{ snippet.metadata.title }}</strong></div>
+  <div>Date: {{ snippet.metadata.date }}</div>
+  <div>
+    Tags:
+    {% for tag in tags %}
+      <a href="/{{ tag.get_relpath() }}">{{ tag.name }}</a>{% if not loop.last%}, {% endif %}
+    {% endfor %}
+  </div>
+  {{ snippet.get_formatted_source() }}
+{% endblock %}
