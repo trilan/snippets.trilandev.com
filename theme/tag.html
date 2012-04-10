@@ -1,9 +1,64 @@
 {% extends "base.html" %}
 
-{% block page_body %}
-  <ul>
-  {% for snippet in snippets %}
-    <li><a href="/{{ snippet.get_relpath() }}">{{ snippet.metadata.title }}</a></li>
-  {% endfor %}
-  </ul>
+
+{% block title %}{{ tag }}{% endblock %}
+
+
+{% block content %}
+    <h2>Сниппеты с тегом &laquo;{{ tag }}&raquo;</h2>
+    <div class="after-h2-wrapper">
+    {% for snippet in snippets %}
+        <div class="snippet">
+            <div class="head-title">
+                <h3>
+                    <a href="/{{ snippet.get_relpath() }}">{{ snippet.metadata.title }}</a>
+                </h3>
+                <div class="comment-count"><i class="icon-comment"></i>
+                    <!-- 10 -->
+                </div>
+            </div>
+            <div class="head-line-two">
+                <div class="tags"><i class="icon-tags"></i>
+                    {% for tag in snippet.metadata.tags %}
+                        <a href="/{{ tag.get_relpath() }}">{{ tag.name }}</a>{% if not loop.last%}, {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="head-line-three">
+                <div class="author"><i class="icon-user"></i>
+                    {{ snippet.metadata.author }}
+                </div>
+                <div class="date"><i class="icon-time"></i>
+                    {{ snippet.metadata.date }}
+                </div>
+            </div>
+            <hr>
+        </div>
+    {% endfor %}
+
+<!--
+        <div class="pagination">
+            <ul>
+                <li class="active"><a>&laquo;</a></li>
+                <li class="active"><a>1</a></li>
+                <li><a href="#?">2</a></li>
+                <li><a href="#?">3</a></li>
+                <li><a>&#133;</a></li>
+                <li><a href="#?">5</a></li>
+                <li><a href="#?">&raquo;</a></li>
+            </ul>
+        </div>
+-->
+    </div>
+{% endblock %}
+
+{% block right %}
+    <h2>Все теги</h2>
+    <div class="after-h2-wrapper tag-cloud">
+        <ul class="unstyled">
+            {% for tag in tags %}
+                <li><a href="/{{ tag.get_relpath() }}">{{ tag.name }}<!-- {{ tag.count }} --></a></li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
