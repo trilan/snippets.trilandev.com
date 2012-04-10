@@ -2,7 +2,7 @@
 
 {% block page_body %}
   <ul>
-  {% for snippet in snippets %}
+  {% for snippet in page.snippets %}
     <li><a href="/{{ snippet.get_relpath() }}">{{ snippet.metadata.title }}</a></li>
   {% endfor %}
   </ul>
