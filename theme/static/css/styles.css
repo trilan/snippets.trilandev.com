@@ -11,6 +11,10 @@ header h1 {
     color: #c9dce5;
 }
 
+header h1 a, header h1 a:hover {
+    color: #c9dce5;
+}
+
 .content, p {
     font-family: 'Istok Web', sans-serif;
     font-size: 17px;
