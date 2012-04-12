@@ -36,7 +36,7 @@ header h1 {
 }
 
 .after-h2-wrapper .table td:last-child {
-    width: 150px;
+    width: 80px;
     padding-left: 0px !important;
 }
 
