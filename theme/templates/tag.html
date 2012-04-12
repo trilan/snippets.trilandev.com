@@ -1,9 +1,81 @@
 {% extends "base.html" %}
 
-{% block page_body %}
-  <ul>
-  {% for snippet in snippets %}
-    <li><a href="/{{ snippet.get_relpath() }}">{{ snippet.metadata.title }}</a></li>
-  {% endfor %}
-  </ul>
+
+{% block title %}{{ tag.name }} &mdash; {{ super() }}{% endblock %}
+
+
+{% block content %}
+    <h2>Сниппеты с тегом &laquo;{{ tag.name }}&raquo;</h2>
+    <div class="after-h2-wrapper">
+    {% for snippet in snippets %}
+        <div class="snippet">
+            <div class="head-title">
+                <h3>
+                    <a href="/{{ snippet.get_relpath() }}">{{ snippet.metadata.title }}</a>
+                </h3>
+                <div class="comment-count"><i class="icon-comment"></i>
+                    <a href="/{{ snippet.get_relpath() }}#disqus_thread" data-disqus-identifier="{{ snippet.get_relpath().replace('/', '_').replace('.', '_') }}"></a>
+                </div>
+            </div>
+            <div class="head-line-two">
+                <div class="tags"><i class="icon-tags"></i>
+                    {% for tag in snippet.metadata.tags %}
+                        <a href="/{{ tag.get_relpath() }}">{{ tag.name }}</a>{% if not loop.last%}, {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="head-line-three">
+                <div class="author"><i class="icon-user"></i>
+                    {{ snippet.metadata.author }}
+                </div>
+                <div class="date"><i class="icon-time"></i>
+                    {{ snippet.metadata.date.strftime('%d.%m.%Y') }}
+                </div>
+            </div>
+            <hr>
+        </div>
+    {% endfor %}
+
+<!--
+        <div class="pagination">
+            <ul>
+                <li class="active"><a>&laquo;</a></li>
+                <li class="active"><a>1</a></li>
+                <li><a href="#?">2</a></li>
+                <li><a href="#?">3</a></li>
+                <li><a>&#133;</a></li>
+                <li><a href="#?">5</a></li>
+                <li><a href="#?">&raquo;</a></li>
+            </ul>
+        </div>
+-->
+    </div>
+{% endblock %}
+
+
+{% block right %}
+    <h2>Все теги</h2>
+    <div class="after-h2-wrapper tag-cloud">
+        <ul class="unstyled">
+            {% for tag in tags %}
+                <li><a href="/{{ tag.get_relpath() }}">{{ tag.name }}<!-- {{ tag.count }} --></a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+
+
+{% block extra_js %}
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'reusablesnippets'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
 {% endblock %}

@@ -1,24 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>{% block page_title %}Code Snippets{% endblock %}</title>
-  <style>
-    body {
-      font-family: Menlo, monospace;
-      font-size: 12px;
-      width: 940px;
-      margin: 40px auto;
-    }
-    .highlight {
-      background: #DFEDF9;
-      border: 1px solid #B6CFDD;
-      padding: 0 10px;
-      margin: 10px 0;
-    }
-  </style>
-</head>
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}Reusable Snippets{% endblock %}</title>
+        <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Chau+Philomene+One' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Marmelad&subset=cyrillic' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Istok+Web:400,700,400italic&subset=latin,cyrillic,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
+
+        <link href="/static/css/styles.css" rel="stylesheet">
+        <link href="/static/css/pygments_style.css" rel="stylesheet">
+
+        <!--[if lt IE 9]>
+          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    </head>
 <body>
-  {% block page_body %}{% endblock %}
+
+
+    <div class="container">
+        <header>
+            <h1>Reusable Snippets</h1>
+            <hr>
+        </header>
+
+        <div class="content">
+            <div class="row">
+                <div class="span8">
+                    {% block content %}{% endblock %}
+                </div>
+
+                <div class="span4">
+                    {% block right %}{% endblock %}
+                </div>
+            </div>
+        </div>
+
+        <footer class="center-element">
+            <p>TrilanDev &copy; 2012</p>
+        </footer>
+    </div>
+
+{% block extra_js %}{% endblock %}
 </body>
 </html>
