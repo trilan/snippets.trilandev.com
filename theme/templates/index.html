@@ -12,7 +12,7 @@
                         <a href="/{{ snippet.get_relpath() }}">{{ snippet.metadata.title }}</a>
                     </td>
                     <td class="small-td"><i class="icon-time"></i></td>
-                    <td>{{ snippet.metadata.date }}</td>
+                    <td>{{ snippet.metadata.date.strftime('%d.%m.%Y') }}</td>
                 </tr>
             {% endfor %}
             </tbody>
