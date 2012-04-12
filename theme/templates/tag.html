@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 
-{% block title %}{{ tag }} &mdash; {{ super() }}{% endblock %}
+{% block title %}{{ tag.name }} &mdash; {{ super() }}{% endblock %}
 
 
 {% block content %}
-    <h2>Сниппеты с тегом &laquo;{{ tag }}&raquo;</h2>
+    <h2>Сниппеты с тегом &laquo;{{ tag.name }}&raquo;</h2>
     <div class="after-h2-wrapper">
     {% for snippet in snippets %}
         <div class="snippet">

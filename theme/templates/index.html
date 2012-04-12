@@ -18,20 +18,12 @@
             </tbody>
         </table>
     </div>
-<!--
-    TODO:
     <h2>Облако тегов</h2>
     <div class="after-h2-wrapper center-element tag-cloud">
-            <a href="#?" class="tag5">Django</a>, 
-            <a href="#?">Python</a>, 
-            <a href="#?" class="tag3">Model</a>, 
-            <a href="#?">QuerySet</a>, 
-            <a href="#?" class="tag2">ModelForm</a>, 
-            <a href="#?" class="tag4">Custom fields</a>, 
-            <a href="#?">widget</a>, 
-            <a href="#?" class="tag1">trilan packages</a>
+        {% for tag in tags %}
+            <a href="/{{ tag.get_relpath() }}" class="tag{{ tag.weight }}">{{ tag.name }}</a>{% if not loop.last%}, {% endif %}
+        {% endfor %}
     </div>
--->
 {% endblock %}
 
 
