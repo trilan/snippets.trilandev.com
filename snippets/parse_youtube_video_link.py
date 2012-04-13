@@ -33,6 +33,6 @@ class YouTubeVideo(object):
         return 'http://i.ytimg.com/vi/%s/1.jpg' % self.get_id()
 
     def get_embed_code(self):
-        return '<iframe width="640" height="360" src="http://www.youtube' +
-               '.com/embed/%s" frameborder="0" allowfullscreen>' +
-               '</iframe>' % self.get_id()
+        return ('<iframe width="640" height="360" src="http://www.youtube'
+                '.com/embed/%s" frameborder="0" allowfullscreen>'
+                '</iframe>' % self.get_id())
