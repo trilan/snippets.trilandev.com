@@ -1,48 +1,38 @@
 # !title: Get the embed code & thumbnails for the YouTube video
 # !date: 2012-04-13
-# !tags: Django, Video
+# !tags: Video, Parsing
 # !author: Denis Veselov
 
 import re
 
-from django.db import models
-from django.utils.translation import ugettext_lazy as _ 
+
+class BadVideoURL(Exception):
+    pass
 
 
-class Video(models.Model):
+class YouTubeVideo(object):
 
-    title = models.CharField(_('title'), max_length=200)
-    url = models.CharField(_('YouTube Video URL'), max_length=250)
+    def __init__(self, url):
+        self.url = url
 
-    def get_video_id(self):
-        id = None
+    def get_id(self):
         if 'youtu.be' in self.url.lower():
-            id = re.search(r'be/([A-Za-z0-9\-_]+)[#&]{0,1}.{0,}$',
-                           self.url, re.DOTALL)
-            if id:
-                id = id.groups()[0]
+            match = re.search(r'be/([^&#]+)[#&]{0,1}.{0,}$', self.url)
+            if match:
+                return match.group(1)
         if 'youtube.com' in self.url.lower():
-            id = re.search(r'v=([^&]+)[#&]{0,1}.{0,}$', self.url, re.DOTALL)
-            if id:
-                id = id.groups()[0]
-        return id
+            match = re.search(r'v=([^&#]+)[#&]{0,1}.{0,}$', self.url)
+            if match:
+                return match.group(1)
+        raise BadVideoURL('%s it is not YouTube video URL' % self.url)
 
-    def get_big_video_thumbnail(self):
-        id = self.get_video_id()
-        if id:
-            return 'http://i.ytimg.com/vi/' + id + '/0.jpg'
-        return ''
+    def get_big_thumbnail(self):
+        return 'http://i.ytimg.com/vi/%s/0.jpg' % self.get_id()
 
-    def get_small_video_thumbnail(self):
-        id = self.get_video_id()
-        if id:
-            return 'http://i.ytimg.com/vi/' + id + '/1.jpg'
-        return ''
+    def get_small_thumbnail(self):
+        return 'http://i.ytimg.com/vi/%s/1.jpg' % self.get_id()
 
     def get_embed_code(self):
-        id = self.get_video_id()
-        if id:
-            return '<iframe width="640" height="360" src="http://www.youtube' +
-                   '.com/embed/%s" frameborder="0" allowfullscreen>' +
-                   '</iframe>' % self.get_video_id()
-        return ''
+        return '<iframe width="640" height="360" src="http://www.youtube' +
+               '.com/embed/%s" frameborder="0" allowfullscreen>' +
+               '</iframe>' % self.get_id()
