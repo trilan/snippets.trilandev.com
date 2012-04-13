@@ -1,4 +1,4 @@
-# !title: Login requied mixin for Django class-based views.
+# !title: Login required mixin for Django class-based views
 # !date: 2012-04-12
 # !tags: Django, CBV
 # !author: Dima Kukushkin
