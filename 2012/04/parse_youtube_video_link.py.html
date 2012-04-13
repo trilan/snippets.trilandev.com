@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Get the embed code & thumbnails for the YouTube video &mdash; Reusable Snippets</title>
+        <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Chau+Philomene+One' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Marmelad&subset=cyrillic' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Istok+Web:400,700,400italic&subset=latin,cyrillic,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
+
+        <link href="/static/css/styles.css" rel="stylesheet">
+        <link href="/static/css/pygments_style.css" rel="stylesheet">
+
+        <!--[if lt IE 9]>
+          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    </head>
+<body>
+
+
+    <div class="container">
+        <header>
+            <h1><a href="/">Reusable Snippets</a></h1>
+            <hr>
+        </header>
+
+        <div class="content">
+            <div class="row">
+                <div class="span8">
+                    
+    <div class="after-h2-wrapper">
+        <div class="snippet">
+            <div class="head-title">
+                <h3>
+                    Get the embed code & thumbnails for the YouTube video
+                </h3>
+            </div>
+            <div class="head-line-two">
+                <div class="tags"><i class="icon-tags"></i>
+                    
+                        <a href="/tags/video.html">Video</a>, 
+                    
+                        <a href="/tags/parsing.html">Parsing</a>
+                    
+                </div>
+            </div>
+            <div class="content">
+                <div class="highlight"><pre><span class="kn">import</span> <span class="nn">re</span>
+
+
+<span class="k">class</span> <span class="nc">BadVideoURL</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">YouTubeVideo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span>
+
+    <span class="k">def</span> <span class="nf">get_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s">&#39;youtu.be&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;be/([^&amp;#]+)[#&amp;]{0,1}.{0,}$&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s">&#39;youtube.com&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;v=([^&amp;#]+)[#&amp;]{0,1}.{0,}$&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">BadVideoURL</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> it is not YouTube video URL&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_big_thumbnail</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;http://i.ytimg.com/vi/</span><span class="si">%s</span><span class="s">/0.jpg&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_id</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_small_thumbnail</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;http://i.ytimg.com/vi/</span><span class="si">%s</span><span class="s">/1.jpg&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_id</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_embed_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;&lt;iframe width=&quot;640&quot; height=&quot;360&quot; src=&quot;http://www.youtube&#39;</span> <span class="o">+</span>
+               <span class="s">&#39;.com/embed/</span><span class="si">%s</span><span class="s">&quot; frameborder=&quot;0&quot; allowfullscreen&gt;&#39;</span> <span class="o">+</span>
+               <span class="s">&#39;&lt;/iframe&gt;&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_id</span><span class="p">()</span>
+</pre></div>
+
+            </div>
+
+            <div class="head-line-three">
+                <div class="author"><i class="icon-user"></i>
+                    Denis Veselov
+                </div>
+                <div class="date"><i class="icon-time"></i>
+                    13.04.2012
+                </div>
+            </div>
+            <hr>
+
+            <div id="disqus_thread"></div>
+        </div>
+    </div>
+
+                </div>
+
+                <div class="span4">
+                    
+    <h2>Все теги</h2>
+    <div class="after-h2-wrapper tag-cloud">
+        <ul class="unstyled">
+            
+        </ul>
+    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <footer class="center-element">
+            <p>TrilanDev &copy; 2012</p>
+        </footer>
+    </div>
+
+
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'reusablesnippets'; // required: replace example with your forum shortname
+    var disqus_identifier='2012_04_parse_youtube_video_link_py_html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</body>
+</html>

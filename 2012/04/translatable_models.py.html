@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Translatable models for multilingual sites &mdash; Reusable Snippets</title>
+        <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Chau+Philomene+One' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Marmelad&subset=cyrillic' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Istok+Web:400,700,400italic&subset=latin,cyrillic,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
+
+        <link href="/static/css/styles.css" rel="stylesheet">
+        <link href="/static/css/pygments_style.css" rel="stylesheet">
+
+        <!--[if lt IE 9]>
+          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    </head>
+<body>
+
+
+    <div class="container">
+        <header>
+            <h1><a href="/">Reusable Snippets</a></h1>
+            <hr>
+        </header>
+
+        <div class="content">
+            <div class="row">
+                <div class="span8">
+                    
+    <div class="after-h2-wrapper">
+        <div class="snippet">
+            <div class="head-title">
+                <h3>
+                    Translatable models for multilingual sites
+                </h3>
+            </div>
+            <div class="head-line-two">
+                <div class="tags"><i class="icon-tags"></i>
+                    
+                        <a href="/tags/django.html">Django</a>, 
+                    
+                        <a href="/tags/multilingual.html">Multilingual</a>
+                    
+                </div>
+            </div>
+            <div class="content">
+                <div class="highlight"><pre><span class="c"># abstract model</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">get_language</span>
+
+
+<span class="k">class</span> <span class="nc">TranslatableModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="n">i18n_name</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">_</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">get_language</span><span class="p">())</span>
+        <span class="n">attr</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">TranslatableModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">i18n_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">attr</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">attr</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">TranslatableModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">_ru&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+
+
+<span class="c"># use of TranslatableModel</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">get_language</span><span class="p">,</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+
+<span class="kn">from</span> <span class="nn">core.models</span> <span class="kn">import</span> <span class="n">TranslatableModel</span>
+
+
+<span class="k">class</span> <span class="nc">ExampleModel</span><span class="p">(</span><span class="n">TranslatableModel</span><span class="p">):</span>
+
+    <span class="n">title_ru</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">title_en</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">title_uk</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ImageField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;image&#39;</span><span class="p">),</span> <span class="n">upload_to</span><span class="o">=</span><span class="s">&#39;example_path&#39;</span><span class="p">)</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;position&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">title_ru</span>
+</pre></div>
+
+            </div>
+
+            <div class="head-line-three">
+                <div class="author"><i class="icon-user"></i>
+                    Denis Veselov
+                </div>
+                <div class="date"><i class="icon-time"></i>
+                    13.04.2012
+                </div>
+            </div>
+            <hr>
+
+            <div id="disqus_thread"></div>
+        </div>
+    </div>
+
+                </div>
+
+                <div class="span4">
+                    
+    <h2>Все теги</h2>
+    <div class="after-h2-wrapper tag-cloud">
+        <ul class="unstyled">
+            
+        </ul>
+    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <footer class="center-element">
+            <p>TrilanDev &copy; 2012</p>
+        </footer>
+    </div>
+
+
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'reusablesnippets'; // required: replace example with your forum shortname
+    var disqus_identifier='2012_04_translatable_models_py_html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</body>
+</html>
