@@ -9,7 +9,7 @@
             {% for snippet in page.snippets %}
                 <tr>
                     <td>
-                        <a href="/{{ snippet.get_relpath() }}">{{ snippet.metadata.title }}</a>
+                        <a href="{{ SITE_URL }}/{{ snippet.get_relpath() }}">{{ snippet.metadata.title }}</a>
                     </td>
                     <td class="small-td"><i class="icon-time"></i></td>
                     <td>{{ snippet.metadata.date.strftime('%d.%m.%Y') }}</td>
@@ -21,7 +21,7 @@
     <h2>Облако тегов</h2>
     <div class="after-h2-wrapper center-element tag-cloud">
         {% for tag in tags %}
-            <a href="/{{ tag.get_relpath() }}" class="tag{{ tag.weight }}">{{ tag.name }}</a>{% if not loop.last%}, {% endif %}
+            <a href="{{ SITE_URL }}/{{ tag.get_relpath() }}" class="tag{{ tag.weight }}">{{ tag.name }}</a>{% if not loop.last%}, {% endif %}
         {% endfor %}
     </div>
 {% endblock %}

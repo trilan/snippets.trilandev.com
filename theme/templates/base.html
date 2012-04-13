@@ -3,14 +3,14 @@
     <head>
         <meta charset="utf-8">
         <title>{% block title %}{{ SITE_NAME }}{% endblock %}</title>
-        <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="{{ SITE_URL }}/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{{ SITE_URL }}/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
         <link href='http://fonts.googleapis.com/css?family=Chau+Philomene+One' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Marmelad&subset=cyrillic' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Istok+Web:400,700,400italic&subset=latin,cyrillic,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
 
-        <link href="/static/css/styles.css" rel="stylesheet">
-        <link href="/static/css/pygments_style.css" rel="stylesheet">
+        <link href="{{ SITE_URL }}/static/css/styles.css" rel="stylesheet">
+        <link href="{{ SITE_URL }}/static/css/pygments_style.css" rel="stylesheet">
 
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -21,7 +21,7 @@
 
     <div class="container">
         <header>
-            <h1><a href="/">{{ SITE_NAME }}</a></h1>
+            <h1><a href="{{ SITE_URL }}/">{{ SITE_NAME }}</a></h1>
             <hr>
         </header>
 

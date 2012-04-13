@@ -15,7 +15,7 @@
             <div class="head-line-two">
                 <div class="tags"><i class="icon-tags"></i>
                     {% for tag in snippet.metadata.tags %}
-                        <a href="/{{ tag.get_relpath() }}">{{ tag.name }}</a>{% if not loop.last%}, {% endif %}
+                        <a href="{{ SITE_URL }}/{{ tag.get_relpath() }}">{{ tag.name }}</a>{% if not loop.last%}, {% endif %}
                     {% endfor %}
                 </div>
             </div>
@@ -44,7 +44,7 @@
     <div class="after-h2-wrapper tag-cloud">
         <ul class="unstyled">
             {% for tag in tags %}
-                <li><a href="/{{ tag.get_relpath() }}">{{ tag.name }}<!-- {{ tag.count }} --></a></li>
+                <li><a href="{{ SITE_URL }}/{{ tag.get_relpath() }}">{{ tag.name }}<!-- {{ tag.count }} --></a></li>
             {% endfor %}
         </ul>
     </div>
