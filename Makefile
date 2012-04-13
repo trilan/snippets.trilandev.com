@@ -2,7 +2,7 @@ clean:
 	rm -rf output
 
 html:
-	snippets -t theme
+	snippets -s settings.py
 
 output/CNAME:
 	cp CNAME output/CNAME
