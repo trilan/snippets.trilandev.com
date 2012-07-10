@@ -10,7 +10,7 @@ from django.db.models.query import QuerySet
 from django.utils.translation import ugettext_lazy as _
 
 
-class ListitemQuerySet(QuerySet):
+class ListItemQuerySet(QuerySet):
 
     def active(self):
         return self.filter(is_active=True)
@@ -19,7 +19,7 @@ class ListitemQuerySet(QuerySet):
 class ListItemManager(models.Manager):
 
     def get_query_set(self):
-        return ListitemQuerySet(self.model, using=self._db)
+        return ListItemQuerySet(self.model, using=self._db)
 
     def active(self):
         return self.get_query_set().active()
