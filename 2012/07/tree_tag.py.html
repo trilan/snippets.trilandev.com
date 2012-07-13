@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Tree template tag &mdash; Reusable Snippets</title>
+        <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Chau+Philomene+One' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Marmelad&subset=cyrillic' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Istok+Web:400,700,400italic&subset=latin,cyrillic,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
+
+        <link href="/static/css/styles.css" rel="stylesheet">
+        <link href="/static/css/pygments_style.css" rel="stylesheet">
+
+        <!--[if lt IE 9]>
+          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    </head>
+<body>
+
+
+    <div class="container">
+        <header>
+            <h1><a href="/">Reusable Snippets</a></h1>
+            <hr>
+        </header>
+
+        <div class="content">
+            <div class="row">
+                <div class="span8">
+                    
+    <div class="after-h2-wrapper">
+        <div class="snippet">
+            <div class="head-title">
+                <h3>
+                    Tree template tag
+                </h3>
+            </div>
+            <div class="head-line-two">
+                <div class="tags"><i class="icon-tags"></i>
+                    
+                        <a href="/tags/django.html">Django</a>
+                    
+                </div>
+            </div>
+            <div class="content">
+                <div class="highlight"><pre><span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">template</span>
+
+
+<span class="n">register</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">Library</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">TreeByLevelNode</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj_name</span><span class="p">,</span> <span class="n">level_name</span><span class="p">,</span> <span class="n">nodelist_header</span><span class="p">,</span>
+                 <span class="n">nodelist_leaf_top</span><span class="p">,</span> <span class="n">nodelist_leaf_bottom</span><span class="p">,</span> <span class="n">nodelist_footer</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">obj_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">level_name</span> <span class="o">=</span> <span class="n">level_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodelist_header</span> <span class="o">=</span> <span class="n">nodelist_header</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodelist_leaf_top</span> <span class="o">=</span> <span class="n">nodelist_leaf_top</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodelist_leaf_bottom</span> <span class="o">=</span> <span class="n">nodelist_leaf_bottom</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodelist_footer</span> <span class="o">=</span> <span class="n">nodelist_footer</span>
+
+    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s">&#39;tree&#39;</span> <span class="ow">in</span> <span class="n">context</span><span class="p">:</span>
+            <span class="n">parenttree</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">parenttree</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">context</span><span class="o">.</span><span class="n">push</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">template</span><span class="o">.</span><span class="n">VariableDoesNotExist</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">nodelist</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">NodeList</span><span class="p">()</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">tree_dict</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;parenttree&#39;</span><span class="p">:</span> <span class="n">parenttree</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">:</span>
+            <span class="n">new_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_level</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">new_level</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">tree_dict</span><span class="p">[</span><span class="s">&#39;level&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_level</span>
+            <span class="n">tree_dict</span><span class="p">[</span><span class="s">&#39;leaf&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+            <span class="k">if</span> <span class="n">new_level</span> <span class="o">&gt;</span> <span class="n">level</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">new_level</span> <span class="o">-</span> <span class="n">level</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodelist_header</span><span class="p">:</span>
+                        <span class="n">nodelist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">context</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">new_level</span> <span class="o">&lt;</span> <span class="n">level</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">level</span> <span class="o">-</span> <span class="n">new_level</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodelist_leaf_bottom</span><span class="p">:</span>
+                        <span class="n">nodelist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">context</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodelist_footer</span><span class="p">:</span>
+                        <span class="n">nodelist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">context</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodelist_leaf_bottom</span><span class="p">:</span>
+                    <span class="n">nodelist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">context</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodelist_leaf_bottom</span><span class="p">:</span>
+                    <span class="n">nodelist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">context</span><span class="p">))</span>
+            <span class="n">level</span> <span class="o">=</span> <span class="n">new_level</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodelist_leaf_top</span><span class="p">:</span>
+                <span class="n">nodelist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">context</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">level</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodelist_leaf_bottom</span><span class="p">:</span>
+                <span class="n">nodelist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">context</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodelist_footer</span><span class="p">:</span>
+                <span class="n">nodelist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">context</span><span class="p">))</span>
+        <span class="n">context</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">nodelist</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">level</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">level_name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">level</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">level_name</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">level</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">level</span>
+
+
+<span class="n">TREE_TYPE_LIST</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="n">TreeByLevelNode</span><span class="p">}</span>
+
+
+<span class="nd">@register.tag</span>
+<span class="k">def</span> <span class="nf">tree</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
+    <span class="n">bits</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bits</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">6</span> <span class="ow">or</span> <span class="n">bits</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;with&#39;</span> <span class="ow">or</span> <span class="n">bits</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;as&#39;</span> <span class="ow">or</span> \
+       <span class="n">bits</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">TREE_TYPE_LIST</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="n">template</span><span class="o">.</span><span class="n">TemplateSyntaxError</span><span class="p">(</span>
+            <span class="s">&#39;</span><span class="si">%r</span><span class="s">: wrong formatted argument list&#39;</span> <span class="o">%</span> <span class="n">bits</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">nodelist_header</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">((</span><span class="s">&#39;leaf&#39;</span><span class="p">,))</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">next_token</span><span class="p">()</span>
+    <span class="n">nodelist_leaf_top</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">((</span><span class="s">&#39;subtree&#39;</span><span class="p">,))</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">next_token</span><span class="p">()</span>
+    <span class="n">nodelist_leaf_bottom</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">((</span><span class="s">&#39;endleaf&#39;</span><span class="p">,))</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">next_token</span><span class="p">()</span>
+    <span class="n">nodelist_footer</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">((</span><span class="s">&#39;endtree&#39;</span><span class="p">,))</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">delete_first_token</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">TREE_TYPE_LIST</span><span class="p">[</span><span class="n">bits</span><span class="p">[</span><span class="mi">5</span><span class="p">]](</span>
+        <span class="n">bits</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bits</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">nodelist_header</span><span class="p">,</span> <span class="n">nodelist_leaf_top</span><span class="p">,</span>
+        <span class="n">nodelist_leaf_bottom</span><span class="p">,</span> <span class="n">nodelist_footer</span><span class="p">)</span>
+</pre></div>
+
+            </div>
+
+            <div class="head-line-three">
+                <div class="author"><i class="icon-user"></i>
+                    Mike Yumatov
+                </div>
+                <div class="date"><i class="icon-time"></i>
+                    12.07.2012
+                </div>
+            </div>
+            <hr>
+
+            <div id="disqus_thread"></div>
+        </div>
+    </div>
+
+                </div>
+
+                <div class="span4">
+                    
+    <h2>Все теги</h2>
+    <div class="after-h2-wrapper tag-cloud">
+        <ul class="unstyled">
+            
+        </ul>
+    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <footer class="center-element">
+            <p>TrilanDev &copy; 2012</p>
+        </footer>
+    </div>
+
+
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'reusablesnippets'; // required: replace example with your forum shortname
+    var disqus_identifier='2012_07_tree_tag_py_html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</body>
+</html>
